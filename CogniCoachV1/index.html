@@ -982,7 +982,10 @@ main .info a {
                     <label for="muscleGroup">Muscle Focus (Optional)</label>
                     <input type="text" id="muscleGroup" placeholder="e.g., Legs, Core, Arms">
                 </div>
-
+                <div class="form-group">
+                    <label for="muscleGroup">temperature</label>
+                    <input type="text" id="temperature" placeholder="e.g., 0.7, 1, 0.1 higher = more creative, lower = less creative more predictable">
+                </div>
                 <div class="form-group">
                     <label for="level">Level</label>
                     <select id="level">
@@ -1544,15 +1547,17 @@ main .info a {
 
         // Placeholder getDrill function (user will implement)
         async function getDrill(drillRequest) {
+            const tmeperature = document.getElementById("temperature").value;
             console.log('Drill request:', drillRequest);
             const apiKey = 'csk-4ecm9mj5wfrmy986h92jtrcx6y8pcjxw9fk3n4yndp528ynd'; // ⚠️ Note: Do not expose this in public frontend code
             const url = 'https://api.cerebras.ai/v1/chat/completions';
 
             const data = {
                 model: 'llama3.1-8b', // or 'gpt-oss-120b'
+                temperature: tmeperature,
                 messages: [
                 {role: 'system', content: 'You are a fitness coach that creates workout drills based on user preferences. Only respond with JSON formatted as {name: string,description: string,targeted muscles:[list],focus: string }. Make the drill unique creative, and completley new tailored specifically to the users needs the description should be a detailed explanation of the drill telling the user exactly how to preform the exersize eg. move your arms in a circular motion, rapidly extend your leg etc.'},
-                { role: 'user', content: `Create a ${drillRequest.section} drill for a ${drillRequest.level} athlete who is practicing at ${drillRequest.location} they want to focus on ${drillRequest.focus} and want to work their ${drillRequest["muscle group"]}, the drill should take exactly ${drillRequest["drill time"]}. The drill should should include certain movements that are conventional and specific for the task at hand. The drill should be easy to understand fr the user and should make logical sense and be easy to follow. Make sure the drill builds upod but is really different from these drills: ${window.globalDrillsList} if none are provided dont worry`}
+                {role: 'user', content: `Create a ${drillRequest.section} drill for a ${drillRequest.level} athlete who is practicing at ${drillRequest.location} they want to focus on ${drillRequest.focus} and want to work their ${drillRequest["muscle group"]}, the drill should take exactly ${drillRequest["drill time"]}. The drill should should include certain movements that are conventional and specific for the task at hand. The drill should be easy to understand fr the user and should make logical sense and be easy to follow. Make sure the drill builds upod but is really different from these drills: ${window.globalDrillsList} if none are provided dont worry`}
                 ]
             };
             console.log(window.globalDrillsList)
