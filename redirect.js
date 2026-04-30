@@ -1,1 +1,1 @@
-window.location.href = '/WebsiteHost/CogniCoachV1/';
+window.location.href = 'CogniCoachV1/';
